@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The Daily Code — a daily logic puzzle. Crack one hidden four-symbol code in six tries, build your streak, and practice anytime.">
+<meta name="theme-color" content="#0E1014">
+<title>The Daily Code — Daily Logic Puzzle</title>
+<style>
+:root{--bg:#0E1014;--surface:#171A20;--surface2:#20242C;--text:#F5F4F0;--muted:#999FA9;--accent:#A875FF;--red:#FF5A66;--amber:#F6B84A;--line:rgba(245,244,240,.10)}
+*{box-sizing:border-box} html{color-scheme:dark;scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 50% -8%,rgba(168,117,255,.13),transparent 34rem),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(14,16,20,.72);border-bottom:1px solid rgba(245,244,240,.06)}
+.nav-inner{height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:inline-flex;align-items:center;gap:11px;font-weight:750}.brand img{width:34px;height:34px;object-fit:contain}
+.nav-links{display:flex;gap:24px;color:var(--muted);font-size:14px}
+.hero{min-height:760px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:64px;padding:72px 0 82px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;margin-bottom:18px;padding:8px 11px;border-radius:999px;border:1px solid rgba(168,117,255,.28);background:rgba(168,117,255,.08);color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+h1{margin:0;max-width:720px;font-size:clamp(52px,7vw,88px);line-height:.97;letter-spacing:-.06em}
+.hero-copy{margin:24px 0 0;max-width:610px;color:#C9CDD5;font-size:clamp(18px,2vw,22px);line-height:1.55}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 20px;border-radius:16px;font-weight:750;border:1px solid var(--line)}
+.primary{background:var(--text);color:#111318}.secondary{background:rgba(255,255,255,.035)}.availability{margin-top:18px;color:var(--muted);font-size:13px}
+.phone-stage{position:relative;min-height:650px;display:grid;place-items:center}.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(168,117,255,.24),rgba(168,117,255,0) 68%)}
+.phone{position:relative;width:min(325px,77vw);padding:7px;border-radius:54px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.38);border:1px solid rgba(245,244,240,.14);background:linear-gradient(145deg,#343740,#101216 48%,#2B2F36);transform:rotate(2.5deg)}
+.phone img{display:block;width:100%;border-radius:47px}.floating-card{position:absolute;right:0;bottom:92px;width:220px;padding:17px;border-radius:18px;background:rgba(23,26,32,.88);backdrop-filter:blur(18px);border:1px solid var(--line)}
+.floating-card strong{display:block;font-size:17px;margin-bottom:5px}.floating-card span{color:var(--muted);font-size:13px;line-height:1.45}.signal-row{display:flex;gap:8px;margin-top:14px}.peg{width:12px;height:12px;border-radius:50%;background:#313640}.peg.red{background:var(--red)}.peg.amber{background:var(--amber)}
+section{padding:92px 0;border-top:1px solid rgba(245,244,240,.06)}.section-kicker{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+h2{margin:0;font-size:clamp(36px,5vw,58px);line-height:1.05;letter-spacing:-.045em}.section-lead{max-width:700px;margin:16px 0 0;color:var(--muted);font-size:18px;line-height:1.65}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}.feature{padding:24px;border-radius:22px;background:var(--surface);border:1px solid var(--line)}.feature .icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:rgba(168,117,255,.10);border:1px solid rgba(168,117,255,.20);color:var(--accent);font-weight:850;margin-bottom:18px}.feature h3{margin:0 0 9px;font-size:20px}.feature p{margin:0;color:var(--muted);line-height:1.6;font-size:15px}
+.screens{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;align-items:start;margin-top:42px}
+.device-wrap{display:flex;flex-direction:column;align-items:center}
+.iphone{
+  position:relative;
+  width:100%;
+  max-width:330px;
+  padding:7px;
+  border-radius:54px;
+  background:linear-gradient(145deg,#343740 0%,#111318 42%,#2B2F36 100%);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:
+    0 26px 60px rgba(0,0,0,.34),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+}
+.iphone::before{
+  content:"";
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:30%;
+  height:3.4%;
+  min-height:24px;
+  max-height:34px;
+  border-radius:999px;
+  background:#000;
+  z-index:3;
+  box-shadow:0 0 0 1px rgba(255,255,255,.025);
+}
+.iphone::after{
+  content:"";
+  position:absolute;
+  right:-4px;
+  top:27%;
+  width:3px;
+  height:16%;
+  border-radius:0 3px 3px 0;
+  background:#23262C;
+  box-shadow:0 60px 0 #23262C;
+}
+.iphone-screen{
+  overflow:hidden;
+  border-radius:47px;
+  background:#000;
+}
+.iphone-screen img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.iphone-button{
+  position:absolute;
+  left:-4px;
+  top:23%;
+  width:3px;
+  height:9%;
+  border-radius:3px 0 0 3px;
+  background:#23262C;
+  box-shadow:0 48px 0 #23262C,0 92px 0 #23262C;
+}
+.shot-label{margin-top:16px;text-align:center;color:var(--muted);font-size:14px}
+.privacy-panel{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:34px;border-radius:26px;border:1px solid rgba(168,117,255,.28);background:linear-gradient(135deg,rgba(168,117,255,.10),transparent 55%),var(--surface)}.privacy-panel p{margin:10px 0 0;color:var(--muted);line-height:1.65}
+.final-cta{text-align:center;padding:110px 0}.final-cta h2{max-width:820px;margin:0 auto}.final-cta p{margin:18px auto 0;max-width:650px;color:var(--muted);font-size:18px}
+footer{border-top:1px solid rgba(245,244,240,.06);padding:28px 0 36px;color:#747A85;font-size:13px}.footer-inner{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}.footer-links{display:flex;gap:18px}
+@media(max-width:900px){.hero{grid-template-columns:1fr;min-height:auto}.feature-grid,.screens{grid-template-columns:1fr}.screens{width:min(460px,100%);margin-left:auto;margin-right:auto}.privacy-panel{grid-template-columns:1fr}.phone-stage{min-height:600px}.floating-card{right:8%;bottom:48px}}
+@media(max-width:620px){.wrap{width:min(100% - 22px,1180px)}.nav-links a:not(:last-child){display:none}.hero{padding:48px 0 58px}.phone-stage{min-height:530px}.floating-card{right:0;bottom:18px;width:195px}section{padding:70px 0}.privacy-panel{padding:24px}.final-cta{padding:80px 0}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-inner">
+<a class="brand" href="#top"><img src="joker-icon.png" alt=""><span>The Daily Code</span></a>
+<div class="nav-links"><a href="#features">Features</a><a href="#screens">Screens</a><a href="https://antimagician.github.io/the-daily-code-privacy/">Privacy</a></div>
+</div></nav>
+
+<main id="top">
+<div class="wrap hero">
+<div>
+<div class="eyebrow">Daily logic puzzle</div>
+<h1>One code.<br>Six tries.<br>Every day.</h1>
+<p class="hero-copy">Crack a hidden four-symbol code, use every clue, build your streak, and sharpen your deduction skills with unlimited Practice.</p>
+<div class="hero-actions">
+<a class="button primary" href="#screens">See the game</a>
+<a class="button secondary" href="mailto:aleksa.eosph@gmail.com">Contact support</a>
+</div>
+<div class="availability">Built for iPhone · Version 1.0</div>
+</div>
+<div class="phone-stage"><div class="glow"></div><div class="phone"><img src="today.png" alt="The Daily Code Today screen"></div>
+<div class="floating-card"><strong>Read the feedback.</strong><span>Red = exact. Yellow = right symbol, wrong position.</span><div class="signal-row"><span class="peg red"></span><span class="peg red"></span><span class="peg amber"></span><span class="peg"></span></div></div></div>
+</div>
+
+<section id="features"><div class="wrap">
+<div class="section-kicker">How it works</div><h2>Simple rules. Serious deduction.</h2>
+<p class="section-lead">The Daily Code is designed to be understood in seconds and thought about for much longer. Every guess gives you just enough information to narrow the possibilities.</p>
+<div class="feature-grid">
+<article class="feature"><div class="icon">01</div><h3>A new Daily Code</h3><p>One official puzzle each day. Solve it, keep your streak alive, and come back tomorrow.</p></article>
+<article class="feature"><div class="icon">∞</div><h3>Unlimited Practice</h3><p>Keep playing whenever you want. Practice puzzles use the same rules without affecting your Daily streak.</p></article>
+<article class="feature"><div class="icon">↗</div><h3>Share without spoilers</h3><p>Share your result with friends while keeping the hidden code secret.</p></article>
+<article class="feature"><div class="icon">4</div><h3>Symbols can repeat</h3><p>Each code has four positions and five possible symbols. Repetition keeps every puzzle interesting.</p></article>
+<article class="feature"><div class="icon">6</div><h3>Six attempts</h3><p>Use exact and misplaced feedback to solve the code before your final guess.</p></article>
+<article class="feature"><div class="icon">✓</div><h3>Track your progress</h3><p>See streaks, solved puzzles, win rate, and your Daily Code history over time.</p></article>
+</div></div></section>
+
+<section id="screens"><div class="wrap">
+<div class="section-kicker">Inside the app</div><h2>Focused, fast, and built around the puzzle.</h2>
+<p class="section-lead">No accounts. No feeds. No clutter. Just the Daily Code, Practice, stats, reminders, and privacy controls.</p>
+<div class="screens">
+<div class="device-wrap">
+  <div class="iphone">
+    <span class="iphone-button" aria-hidden="true"></span>
+    <div class="iphone-screen"><img src="today.png" alt="Today gameplay screen"></div>
+  </div>
+  <div class="shot-label">Today</div>
+</div>
+<div class="device-wrap">
+  <div class="iphone">
+    <span class="iphone-button" aria-hidden="true"></span>
+    <div class="iphone-screen"><img src="practice.png" alt="Practice gameplay screen"></div>
+  </div>
+  <div class="shot-label">Practice</div>
+</div>
+<div class="device-wrap">
+  <div class="iphone">
+    <span class="iphone-button" aria-hidden="true"></span>
+    <div class="iphone-screen"><img src="settings.png" alt="Settings screen"></div>
+  </div>
+  <div class="shot-label">Settings & privacy</div>
+</div>
+</div></div></section>
+
+<section><div class="wrap"><div class="privacy-panel">
+<div><div class="section-kicker">Privacy</div><h2 style="font-size:clamp(30px,4vw,46px)">Clear choices. No account required.</h2>
+<p>The Daily Code does not require an account. Gameplay history and preferences are stored locally. Advertising privacy choices are handled through Google UMP where required, and an optional one-time Remove Ads purchase is available.</p></div>
+<a class="button secondary" href="https://antimagician.github.io/the-daily-code-privacy/">Read Privacy Policy</a>
+</div></div></section>
+
+<section class="final-cta"><div class="wrap"><div class="section-kicker">The Daily Code</div><h2>Crack the code. Build the streak. Come back tomorrow.</h2><p>A compact daily logic game by Aleksa Đurošev.</p></div></section>
+</main>
+
+<footer><div class="wrap footer-inner"><div>© 2026 Aleksa Đurošev · The Daily Code</div><div class="footer-links"><a href="https://antimagician.github.io/the-daily-code-privacy/">Privacy Policy</a><a href="mailto:aleksa.eosph@gmail.com">Support</a></div></div></footer>
+</body></html>
